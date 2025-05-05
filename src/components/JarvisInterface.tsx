@@ -9,10 +9,10 @@ const JarvisInterface: React.FC = () => {
   const { isLoading } = useChatContext();
 
   return (
-    <div className="flex flex-col h-full relative rounded-lg glass-panel overflow-hidden border border-secondary/50 shadow-lg">
-      <div className="bg-secondary/50 px-4 py-3 flex items-center">
+    <div className="flex flex-col h-full relative rounded-xl overflow-hidden backdrop-blur-md bg-background/10 border border-primary/10 shadow-xl">
+      <div className="bg-background/30 backdrop-blur-xl px-4 py-3 flex items-center border-b border-primary/5">
         <h1 className="text-lg font-semibold text-primary-foreground flex items-center">
-          <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-glow inline-block"></span>
+          <span className="w-2 h-2 bg-primary rounded-full mr-2 animate-pulse inline-block"></span>
           JARVIS
         </h1>
         {isLoading && (

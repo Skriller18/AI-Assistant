@@ -13,8 +13,8 @@ const ChatWindow: React.FC = () => {
   }, [messages]);
 
   return (
-    <ScrollArea className="flex-1 p-4">
-      <div className="flex flex-col">
+    <ScrollArea className="flex-1 p-4 pb-16 overflow-hidden">
+      <div className="flex flex-col space-y-3">
         {messages.map((message) => (
           <MessageBubble key={message.id} message={message} />
         ))}
