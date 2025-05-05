@@ -1,5 +1,5 @@
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { Message, MessageType } from '../types/chat';
 import { toast } from '@/components/ui/sonner';
 
@@ -13,6 +13,7 @@ interface ChatContextType {
   setTranscript: (text: string) => void;
   sendMessage: (content: string) => Promise<void>;
   isLoading: boolean;
+  isSpeaking: boolean;
 }
 
 const ChatContext = createContext<ChatContextType | undefined>(undefined);
@@ -42,6 +43,7 @@ export const ChatProvider = ({ children, webhookUrl = 'https://echo.zuplo.io/' }
   const [isListening, setIsListening] = useState(false);
   const [transcript, setTranscript] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [isSpeaking, setIsSpeaking] = useState(false);
 
   const addMessage = (content: string, type: MessageType) => {
     const newMessage: Message = {
@@ -91,6 +93,12 @@ export const ChatProvider = ({ children, webhookUrl = 'https://echo.zuplo.io/' }
       setTimeout(() => {
         addMessage(data.message || 'I received your message. How can I help further?', 'jarvis');
         setIsLoading(false);
+        
+        // Simulate Jarvis speaking
+        setIsSpeaking(true);
+        setTimeout(() => {
+          setIsSpeaking(false);
+        }, 3000); // Simulate speaking for 3 seconds
       }, 1000); // Slight delay for a more natural conversation feel
       
     } catch (error) {
@@ -99,6 +107,16 @@ export const ChatProvider = ({ children, webhookUrl = 'https://echo.zuplo.io/' }
       setIsLoading(false);
     }
   };
+
+  // Initial speaking effect
+  useEffect(() => {
+    setIsSpeaking(true);
+    const timer = setTimeout(() => {
+      setIsSpeaking(false);
+    }, 3000);
+    
+    return () => clearTimeout(timer);
+  }, []);
 
   const value = {
     messages,
@@ -110,6 +128,7 @@ export const ChatProvider = ({ children, webhookUrl = 'https://echo.zuplo.io/' }
     setTranscript,
     sendMessage,
     isLoading,
+    isSpeaking,
   };
 
   return <ChatContext.Provider value={value}>{children}</ChatContext.Provider>;
